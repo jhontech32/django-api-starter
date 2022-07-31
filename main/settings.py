@@ -11,9 +11,9 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 from pathlib import Path
+# Add this
 # env initialize
 import environ
-import os
 
 # env reader
 env = environ.Env()
@@ -47,9 +47,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    # Add this
     'rest_framework',
+    'drf_yasg',
     'authentication'
-
 ]
 
 MIDDLEWARE = [
@@ -82,7 +83,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'main.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
@@ -100,7 +100,10 @@ DATABASES = {
 # Add this
 REST_FRAMEWORK = {
     # custom error message
-    'NON_FIELD_ERRORS_KEY': 'error'
+    'NON_FIELD_ERRORS_KEY': 'error',
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication', # Must end with ,
+    )
 }
 
 
@@ -141,3 +144,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# Email SMTP Configuration
+# import into it, ex: django.core.mail.backends.smtp.EmailBackend
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# For check what the port go to google: 'gmail smtp configuration'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = '587'
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = env('EMAIL_USER')
+EMAIL_HOST_PASSWORD = env('EMAIL_PASSWORD')
