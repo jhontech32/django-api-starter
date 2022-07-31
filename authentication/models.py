@@ -45,4 +45,3 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def tokens(self):
         return ''
-
